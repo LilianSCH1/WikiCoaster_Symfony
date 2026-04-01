@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catégories{% endblock %}
+
+{% block body %}
+    <h1>Liste des catégories</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Couleur</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for category in categories %}
+            <tr>
+                <td>{{ category.id }}</td>
+                <td>{{ category.name }}</td>
+                <td>
+                    {% set normalizedColor = category.color ? (category.color starts with('#') ? category.color : '#' ~ category.color) : '#d1d5db' %}
+                    <span
+                        class="color-swatch"
+                        style="--swatch-color: {{ normalizedColor }}"
+                        title="{{ normalizedColor }}"
+                        aria-label="Couleur de la catégorie {{ category.name }}"
+                    ></span>
+                </td>
+                <td>
+                    <a href="{{ path('app_category_show', {'id': category.id}) }}" class="btn btn-warning btn-sm">Voir</a>
+                    <a href="{{ path('app_category_edit', {'id': category.id}) }}" class="btn btn-accent btn-sm">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Aucun enregistrement trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_category_new') }}" class="btn btn-warning">Créer une catégorie</a>
+{% endblock %}

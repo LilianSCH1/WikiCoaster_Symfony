@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveau parc{% endblock %}
+
+{% block body %}
+    <h1>Créer un parc</h1>
+
+    {{ include('park/_form.html.twig') }}
+
+    <a href="{{ path('app_park_index') }}" class="btn btn-outline btn-sm">Retour à la liste</a>
+{% endblock %}

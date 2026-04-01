@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>Liste des montagnes russes</h1>
+<a href="{{ path('app_coaster_add') }}" class="btn btn-success">Ajouter</a>
+
+<form action="" method="GET" class="flex py-3 ">
+  <select name="park" class="select">
+    <option value="">Tous les parcs</option>
+    {% for park in parks %}
+    {# app.request.query.get('park') #}
+    <option value="{{ park.id }}" {{ parkId == park.id ? 'selected':'' }}>{{ park.name }}</option>
+    {% endfor %}
+  </select>
+
+  <select name="category" class="select ms-2">
+    <option value="">Toutes les catégories</option>
+    {% for category in categories %}
+    <option value="{{ category.id }}" {{ categoryId == category.id ? 'selected':'' }}>{{ category.name }}</option>
+    {% endfor %}
+  </select>
+
+  <button type="submit" class="ms-2 btn btn-default"><i class="bi bi-funnel"></i> Filtrer</button>
+</form>
+
+<div class="overflow-x-auto">
+  <table class="table">
+    <!-- head -->
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Parc</th>
+        <th>Catégories</th>
+        <th>Longueur</th>
+        <th>Vit. Max.</th>
+        <th>Haut. Max.</th>
+        <th>En fonction</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for entity in entities %}
+      {# tr>td*6 #}
+        <tr class="{% if not entity.published %}bg-warning{% endif %}">
+            <td><a href="{{ path('app_coaster_show', {id: entity.id}) }}" class="btn btn-warning btn-xs"><strong>{{ entity.name }}</strong></a></td>
+            <td>{{ entity.park }}</td>
+            <td>
+              {% for category in entity.categories %}
+                <span class="badge text-white" style="background-color: {{ category.color }}">{{ category.name }}</span>
+              {% endfor %}
+            </td>
+            
+            <td>{{ entity.length }}</td>
+            <td>{{ entity.maxSpeed }}</td>
+            <td>{{ entity.maxHeight }}</td>
+            <td>{{ entity.operating ? '🟢​':'🔴​' }}</td>
+            <td>
+              {# {% if is_granted('POST_EDIT', entity) %} #}
+              {% if is_granted(constant("App\\Security\\Voter\\CoasterVoter::EDIT"), entity) %}
+                <a href="{{ path('app_coaster_edit', {id: entity.id}) }}" class="btn btn-accent btn-sm"><i class="bi bi-pencil"></i></a>
+                <a href="{{ path('app_coaster_delete', {id: entity.id}) }}" class="btn btn-warning btn-sm"><i class="bi bi-trash"></i></a>
+              {% endif %}
+            </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<div>{{ entities.count }} montagne(s) russe(s)</div>
+
+{% include "utils/_pagination.html.twig" with {route: "app_coaster_index"} %}
+{% endblock %}

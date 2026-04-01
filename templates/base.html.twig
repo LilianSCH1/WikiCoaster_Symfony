@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}WikiCoaster{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
+    <body>
+        <main class="flex flex-nowrap h-[100vh]">
+            <div class="flex flex-col shrink-0 shadow w-[240px] bg-base-200 pb-6">
+                <div class="py-2 bg-primary text-center text-white">Wiki Coaster</div>
+
+                <ul class="menu bg-base-200 rounded-box w-56">
+                    <li><a href="{{ path('app_coaster_index') }}"><i class="bi bi-minecart"></i> Coasters</a></li>
+                    <li><a href="{{ path('app_park_index') }}"><i class="bi bi-geo"></i> Parcs</a></li>
+                    <li><a href="{{ path('app_category_index') }}"><i class="bi bi-tags"></i> Catégories</a></li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <li><a href="{{ path('app_user_index') }}"><i class="bi bi-people"></i> Utilisateurs</a></li>
+                    {% endif %}
+                </ul>
+
+                <div class="flex flex-col mt-auto p-2">
+                    {% if is_granted('ROLE_USER') %}
+                        <a href="{{ path('app_logout') }}" class="btn btn-secondary"><i class="bi bi-door-closed"></i>Se déconnecter</a>
+                    {% else %}
+                        <a href="{{ path('app_login') }}" class="btn btn-neutral">
+                            <i class="bi bi-box-arrow-in-right"></i> Se connecter
+                        </a>
+                        <a href="{{ path('app_register') }}" class="btn btn-primary mt-2">
+                            <i class="bi bi-person-plus"></i> Créer un compte
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="p-4 flex-grow-1">
+                <div class="bg-base-200 p-2 rounded-xs border-base-300">
+                    {% for label, messages in app.flashes %}
+                        {% for message in messages %}
+                            <div class="alert mb-3
+                                {% if label in ['success'] %}alert-success{% endif %}
+                                {% if label in ['warning'] %}alert-warning{% endif %}
+                                {% if label in ['error', 'danger'] %}alert-error{% endif %}
+                                {% if label in ['info'] %}alert-info{% endif %}">
+                                <span>{{ message }}</span>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    {% block body %}{% endblock %}
+                </div>     
+            </div>
+        </main>
+    </body>
+</html>

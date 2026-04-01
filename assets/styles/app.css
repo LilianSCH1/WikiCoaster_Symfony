@@ -1,0 +1,131 @@
+@import "tailwindcss";
+@import "bootstrap-icons/font/bootstrap-icons";
+
+/* Scan seulement les fichiers Twig */
+@source "../../templates";
+@plugin "daisyui";
+
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  prefersdark: true;
+  color-scheme: "light";
+  --color-base-100: oklch(98% 0.002 247.839);
+  --color-base-200: oklch(96% 0.003 264.542);
+  --color-base-300: oklch(92% 0.006 264.531);
+  --color-base-content: oklch(21% 0.034 264.665);
+  --color-primary: oklch(79% 0.184 86.047);
+  --color-primary-content: oklch(98% 0.026 102.212);
+  --color-secondary: oklch(71% 0.143 215.221);
+  --color-secondary-content: oklch(98% 0.019 200.873);
+  --color-accent: oklch(70% 0.14 182.503);
+  --color-accent-content: oklch(98% 0.014 180.72);
+  --color-neutral: oklch(27% 0.033 256.848);
+  --color-neutral-content: oklch(98% 0.002 247.839);
+  --color-info: oklch(62% 0.214 259.815);
+  --color-info-content: oklch(97% 0.014 254.604);
+  --color-success: oklch(76% 0.233 130.85);
+  --color-success-content: oklch(98% 0.031 120.757);
+  --color-warning: oklch(79% 0.184 86.047);
+  --color-warning-content: oklch(98% 0.026 102.212);
+  --color-error: oklch(65% 0.241 354.308);
+  --color-error-content: oklch(97% 0.014 343.198);
+  --radius-selector: 0.25rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.5rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 1;
+}
+
+/* Harmonise le style de tous les boutons de l'application */
+@layer components {
+  .color-swatch {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 0.2rem;
+    border: 1px solid color-mix(in oklab, var(--color-base-content) 25%, transparent);
+    background-color: var(--swatch-color, #d1d5db);
+    vertical-align: middle;
+  }
+
+  .color-swatch-lg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  :where(a.btn, button, input[type="submit"], input[type="button"], input[type="reset"]) {
+    border-radius: 0.75rem;
+    border-width: 1px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    box-shadow: 0 6px 14px color-mix(in oklab, var(--color-neutral) 15%, transparent);
+  }
+
+  :where(a.btn, button, input[type="submit"], input[type="button"], input[type="reset"]):hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px color-mix(in oklab, var(--color-neutral) 22%, transparent);
+    filter: saturate(1.06);
+  }
+
+  :where(a.btn, button, input[type="submit"], input[type="button"], input[type="reset"]):active {
+    transform: translateY(0);
+    box-shadow: 0 4px 10px color-mix(in oklab, var(--color-neutral) 16%, transparent);
+  }
+
+  :where(a.btn, button, input[type="submit"], input[type="button"], input[type="reset"]):focus-visible {
+    outline: 3px solid color-mix(in oklab, var(--color-primary) 45%, white);
+    outline-offset: 2px;
+  }
+
+  :where(a.btn, button, input[type="submit"], input[type="button"], input[type="reset"]):disabled,
+  :where(a.btn, button, input[type="submit"], input[type="button"], input[type="reset"])[aria-disabled="true"] {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  button:not([class]),
+  input[type="submit"]:not([class]),
+  input[type="button"]:not([class]),
+  input[type="reset"]:not([class]) {
+    background: linear-gradient(
+      145deg,
+      color-mix(in oklab, var(--color-primary) 82%, white),
+      var(--color-primary)
+    );
+    color: var(--color-primary-content);
+    border-color: color-mix(in oklab, var(--color-primary) 72%, black);
+    padding: 0.55rem 1rem;
+  }
+
+  .btn-default {
+    background: color-mix(in oklab, var(--color-base-100) 50%, var(--color-base-content) 10%);
+    color: var(--color-base-content);
+    border-color: color-mix(in oklab, var(--color-base-content) 24%, transparent);
+  }
+
+  .btn-default:hover {
+    background: color-mix(in oklab, var(--color-base-200) 60%, var(--color-base-content) 12%);
+  }
+
+  /* Fallback DaisyUI style: tout .btn sans variante explicite reçoit un fond visible */
+  .btn:not(.btn-primary):not(.btn-secondary):not(.btn-accent):not(.btn-neutral):not(.btn-info):not(.btn-success):not(.btn-warning):not(.btn-error):not(.btn-ghost):not(.btn-link):not(.btn-outline):not(.btn-dash):not(.btn-soft):not(.btn-active):not(.btn-disabled):not(.btn-default) {
+    background: linear-gradient(
+      145deg,
+      color-mix(in oklab, var(--color-warning) 85%, white),
+      var(--color-warning)
+    );
+    color: var(--color-warning-content);
+    border-color: color-mix(in oklab, var(--color-warning) 72%, black);
+  }
+
+  .btn:not(.btn-primary):not(.btn-secondary):not(.btn-accent):not(.btn-neutral):not(.btn-info):not(.btn-success):not(.btn-warning):not(.btn-error):not(.btn-ghost):not(.btn-link):not(.btn-outline):not(.btn-dash):not(.btn-soft):not(.btn-active):not(.btn-disabled):not(.btn-default):hover {
+    filter: saturate(1.08) brightness(0.98);
+  }
+}

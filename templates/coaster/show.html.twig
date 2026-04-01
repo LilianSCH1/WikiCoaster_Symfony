@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="breadcrumbs text-sm">
+  <ul>
+    <li><a href="{{ path('app_app_index') }}">Accueil</a></li>
+        <li><a href="{{ path('app_coaster_index') }}">Montagnes russes</a></li>
+    <li>{{ entity.name }}</li>
+  </ul>
+</div>
+
+<h1>{{ entity.name }}</h1>
+
+<div class="card bg-base-100 shadow-sm mt-4">
+    {% if entity.imageFileName %}
+    <figure>
+        <img
+        src="{{ asset('uploads/' ~ entity.imageFileName) }}"
+        alt="{{ entity.name }}"
+        class="w-full" />
+    </figure>
+    {% endif %}
+    <div class="card-body">
+        <div class="flex">
+            {% for cat in entity.categories %}
+            <div class="badge me-1 text-white" style="background-color: {{ cat.color }}">{{ cat }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="fex">
+            <div class="tooltip me-2" data-tip="Hauteur maximum">
+                <i class="bi bi-arrow-bar-up"></i> {{ entity.maxHeight }} m
+            </div>
+            <div class="tooltip me-2" data-tip="Longueur">
+                <i class="bi bi-arrows"></i> {{ entity.length }} m
+            </div>
+            <div class="tooltip me-2" data-tip="Vitesse maximum">
+                <i class="bi bi-speedometer"></i> {{ entity.maxSpeed }} km/h
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

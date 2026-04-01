@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Parcs{% endblock %}
+
+{% block body %}
+    <h1>Liste des parcs</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Pays</th>
+                <th>Année d'ouverture</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for park in parks %}
+            <tr>
+                <td>{{ park.id }}</td>
+                <td>{{ park.name }}</td>
+                <td>{{ park.country }}</td>
+                <td>{{ park.openingYear }}</td>
+                <td>
+                    <a href="{{ path('app_park_show', {'id': park.id}) }}" class="btn btn-warning btn-sm">Voir</a>
+                    <a href="{{ path('app_park_edit', {'id': park.id}) }}" class="btn btn-accent btn-sm">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">Aucun enregistrement trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_park_new') }}" class="btn btn-warning">Créer un parc</a>
+{% endblock %}
