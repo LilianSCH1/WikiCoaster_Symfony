@@ -31,3 +31,6 @@ yarn-error.log
 /.symfony-home-fg/
 /.symfony-home-run/
 /.tools/symfony-cli/
+
+# Local dev env file
+/.env.dev
